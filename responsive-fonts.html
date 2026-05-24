@@ -21,11 +21,31 @@
 </html>
 
 <style>
+
+  section {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    @media (width >= 1024px) {
+      flex-direction: row;
+    }
+  }
+
+  article {
+    width: 80vw;
+
+    @media (width >= 1024px) {
+      width: 40vw;
+    }
+  }
+
   p {
   --size: clamp(1rem, 1rem + 2cqw, 2rem);
   font-size: var(--size);
   }
 
+  /* Rounding the numbers to prevent decimals */
   .round {
     font-size: round(down, var(--size), var(--round-interval, 4px));
   }
