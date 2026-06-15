@@ -1,0 +1,292 @@
+<game tabindex="0"> 
+    <content>
+        <dino></dino>
+        <all></all>
+        <end></end>
+    </content>
+</game>
+
+
+<style>
+@property --y0 {syntax: "<number>";initial-value: 1;inherits: true}
+@property --y1 {syntax: "<number>";initial-value: 1;inherits: true}
+@property --s  {syntax: "<integer>";initial-value: 0;inherits: true}
+
+game {
+  --nc: 2153;
+  height: 150px;
+  width: 600px;
+  display: grid;
+  grid-template-rows: 1px 1fr;
+  writing-mode: sideways-lr;
+  overflow: auto;
+  animation: --y0 linear both;
+  animation-timeline: scroll(y self);
+  container-type: scroll-state;
+  scrollbar-width: none;
+  outline: 0;
+  margin: 5px 5px 80px;
+  place-self: center;
+  position: relative;
+  cursor: pointer;
+}
+@keyframes --y0 {to {--y0: var(--nc)}}
+game:before {
+  content: "";
+  height: calc(100% + calc(var(--nc)*40px));
+}
+game > content {
+  display: grid; 
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  margin-left: -1px;
+  transition: --y1 .8s .02s;
+  --y1: var(--y0);
+  --j: min(abs(var(--y0) - var(--y1)),1.2);
+  @container scroll-state(scrolled: bottom) {
+    --j: -1;
+    transition: none;
+  }
+  background: url(https://assets.codepen.io/1480814/gg_1.png) left 0 bottom 8px repeat-x;
+  animation: m 6.3s infinite linear,g 3.1s infinite linear;
+  container-name: --main;
+  z-index: 2;
+}
+@keyframes g {to {background-position: left -1204px bottom 8px}}
+@keyframes m {
+  00.00%,23.33%{--a: 0;--b: 0} 
+  23.34%,25.00%{--a: 1;--b: 0} 
+  25.01%,26.66%{--a: 1;--b: 0} 
+  26.67%,40.00%{--a: 0;--b: 0} 
+  40.01%,41.66%{--a: 1;--b: 0} 
+  41.67%,43.33%{--a: 1;--b: 0} 
+  43.35%,53.33%{--a: 0;--b: 0} 
+  53.34%,55.00%{--a: 0;--b: 1} 
+  55.01%,56.66%{--a: 0;--b: 1} 
+  56.67%,73.33%{--a: 0;--b: 0} 
+  73.34%,75.00%{--a: 1;--b: 0} 
+  75.01%,76.66%{--a: 1;--b: 0} 
+  76.67%,96.66%{--a: 0;--b: 0} 
+  96.67%,98.33%{--a: 1;--b: 0} 
+  98.34%,100.0%{--a: 1;--b: 0} 
+}
+game > content > *,
+game > content:before,
+game > content:after,
+game end:before,
+game end:after {
+  grid-area: 1/1;
+}
+game dino {
+  content:"";
+  height: 50px;
+  aspect-ratio: .88;
+  z-index: 3;
+  background: url(https://assets.codepen.io/1480814/dd.png) 0px 0px no-repeat;
+  margin: auto auto 5% 1px;
+  translate: 0 min(-180%*var(--j),0%);
+  animation: r .3s steps(2,jump-none) infinite;
+  --_p: if(style(--y0 = --y1): -350px; else: 0px);
+  @container scroll-state(scrolled: bottom) {
+    aspect-ratio: 1.18;
+    animation-name: d;
+  }
+  @container --main style(--j = 1.2) {
+    aspect-ratio: 1.18;
+    animation-name: none;
+    background-position: -262px 0px;
+    &:after {
+      visibility: visible!important;
+    }
+  }
+}
+game dino:after {
+  content: "🚀";           
+  writing-mode: initial;
+  display: inline-block;
+  font-size: 30px;
+  rotate: 45deg;
+  width: 10px;
+  visibility: hidden;
+}
+@keyframes r {
+  0% {background-position: max(var(--_p),-88px)  0}
+  to {background-position: max(var(--_p),-132px) 0}
+}
+@keyframes d {
+  0% {background-position: max(var(--_p),-262px) 0}
+  to {background-position: max(var(--_p),-321px) 0}
+}
+game all {
+  width: 300%;
+  background: 
+    url(https://assets.codepen.io/1480814/cl.png) 10% 20%,
+    url(https://assets.codepen.io/1480814/cl.png) 40% 30%,
+    url(https://assets.codepen.io/1480814/cl.png) 50% 10%,
+    url(https://assets.codepen.io/1480814/cl.png) 75% 17%,
+    url(https://assets.codepen.io/1480814/cl.png) 90% 22%,
+    url(https://assets.codepen.io/1480814/cc2.png) calc(44*100%/44) 95%,
+    url(https://assets.codepen.io/1480814/cc1.png) calc(30*100%/44) 95%,
+    url(https://assets.codepen.io/1480814/cc2.png) calc(10*100%/44) 95%,
+    url(https://assets.codepen.io/1480814/cc1.png) calc( 0*100%/44) 95%;
+  background-size: calc(100%/45) auto;
+  background-repeat: no-repeat;
+  animation: inherit;
+  animation-name: o;
+  translate: calc(100%/3) 0;
+}
+@keyframes o {to {translate: -100% 0}}
+game all:before {
+  content: "";
+  position: absolute;
+  left: calc(18*100%/45);
+  bottom: 30%;
+  width: 60px;
+  aspect-ratio: 1.15;
+  background: url(https://assets.codepen.io/1480814/bb.png) left/200% auto no-repeat;
+  animation: b .3s steps(2,jump-none) infinite;
+}
+@keyframes b {to {background-position: right}}
+game end {
+  animation: s 9999s linear both;
+  display: grid;
+  @container --main style(--j = 1.2) {
+    animation-play-state: paused;   
+  }
+}
+@keyframes s {to {--s: 99999}}
+game end:before {
+  content: counter(n);
+  counter-reset: n var(--s);
+  text-align: right;
+  width: min(100%, 100vw - 20px);
+  font: bold 18px monospace;
+  writing-mode: initial;
+}
+game:not(#_) end:after {
+  content: "Game Over\A Score: " counter(s);
+  counter-reset: s var(--score);
+  font: bold 30px system-ui,sans-serif;
+  writing-mode: initial;
+  white-space: pre;
+  text-align: center;
+  background: #fff;
+  display: none;
+  transition: display 9999s 9999s;
+  place-content: center;
+  animation: score .1s infinite both;
+  animation-play-state: running!important;
+  transition-behavior: allow-discrete;
+  background: url(https://assets.codepen.io/1480814/oo.png) 10% 100% no-repeat #fff;
+  z-index: 11;
+}
+@keyframes score {0%,to{--score: var(--s)}}
+game content:before,
+game content:after {
+  content: "Refresh the page to start a new game";
+  font: 600 17px system-ui,sans-serif;
+  writing-mode: initial;
+  z-index: 11;
+  place-self: center start;
+  pointer-events: none;
+  visibility: hidden;
+  animation: end .1s forwards paused;
+}
+game content:before {
+  content: "Ooops!";
+  font: 600 12px system-ui, sans-serif;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 8px;
+  border-bottom-left-radius: 0;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 8px 100%,-6px calc(100% + 6px), 0 calc(100% - 8px));
+  background: #535353;
+  border-image: conic-gradient(#535353) 0 0 999 999 / 0 0 14px 14px / 0 0 6px 6px;
+  z-index: 12;
+  place-self: start;
+  margin-left: 100px;
+  margin-bottom: 55px;
+}
+@keyframes end {1%,to{visibility: visible;}}
+@container --main 
+  (style(--j < .5) and style(--a = 1)) or 
+  (style(1 > --j >= 0) and style(--b = 1)) {
+   game:not(#_) end:after {
+     display: grid;
+     transition: display 0s;
+   }
+   game content:before,
+   game content:after {
+     animation-play-state: running;
+   }
+}
+game:after {
+  content: "🖱️ Click to Start";
+  font: bold 30px system-ui,sans-serif;
+  writing-mode: initial;
+  text-shadow: 0 0 4px #fff;
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  animation: pause .1s forwards;
+  visibility: hidden;
+  width: min(100%, 100vw - 20px);
+}
+html:not(:has(:focus-within)) game:after {
+  visibility: visible;
+}
+@keyframes pause {
+  50%,to {content: "🖱️ Click to Resume";}
+}
+html,
+dino:after {
+  animation: night 120s infinite linear;
+}
+@keyframes night {
+  0%,49.5%,100% {filter: invert(0)}
+  50%,99.5% {filter: invert(1)}
+}
+html:not(:has(:focus-within)),
+html:not(:has(:focus-within)) *,
+html:not(:has(:focus-within)) *:before,
+html:not(:has(:focus-within)) *:after {
+  animation-play-state: paused!important;
+}
+html:has(:focus-within) game {
+  cursor: none;
+}
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  color: #535353;
+  background: #fff;
+}
+html:before {
+  content: "Instructions: \A ⬆️ Up to Jump \A ⬇️ Down to Crouch";
+  font-family: system-ui,sans-serif;
+  font-size: 19px;
+  font-weight: bold; 
+  white-space: pre;
+  position: fixed;
+  bottom: 5px;
+  left: 10px;
+  color: #535353;
+}
+@supports not (animation-range: if( style(--i = 0):0% 100%;else: 100% 0%;) )  {
+  html:after {
+    content:"Use Chrome to play the game"!important;
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    font: bold 50px system-ui,sans-serif;
+    background: #fff!important;
+    z-index: 999;
+  }
+}
+</style>
